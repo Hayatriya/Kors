@@ -16,7 +16,7 @@ const users = [
 app.use(bodyParser.json());
 
 const corsOptions = {
-    origin: 'https://hayatriya.github.io/resource_sharing/',
+    origin: 'https://hayatriya.github.io',
     credentials: true
 };
 
