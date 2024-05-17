@@ -17,7 +17,12 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     const data = await response.json();
 
     if (response.ok) {
-        alert('Login successful: ' + data.message);
+        const userDetails = data.userDetails;
+        alert(`Login successful:
+               Name: ${userDetails.name}
+               Email: ${userDetails.email}
+               Phone: ${userDetails.phone}
+               Address: ${userDetails.address}`);
     } else {
         alert('Login failed: ' + data.message);
     }
