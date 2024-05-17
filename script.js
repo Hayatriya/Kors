@@ -8,7 +8,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Origin': 'https://hayatriya.github.io/resource_sharing/'
+            'Origin': 'https://hayatriya.github.io'
         },
         body: JSON.stringify({ userid, password }),
         credentials: 'include'
