@@ -1,5 +1,4 @@
 const express = require('express');
-const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -15,12 +14,14 @@ const users = [
 
 app.use(bodyParser.json());
 
-const corsOptions = {
-    origin: 'https://hayatriya.github.io',
-    credentials: true
-};
-
-app.use(cors(corsOptions));
+// Misconfigured CORS middleware
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', req.headers.origin);  // Allow any origin
+    res.header('Access-Control-Allow-Credentials', 'true');  // Allow credentials
+    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+});
 
 app.post('/login', (req, res) => {
     const { userid, password } = req.body;
@@ -42,6 +43,12 @@ app.post('/login', (req, res) => {
     }
 });
 
+// Endpoint to get all users
+app.get('/all-users', (req, res) => {
+    res.status(200).json(users);
+});
+
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}/`);
 });
+
