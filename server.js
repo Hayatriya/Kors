@@ -1,54 +1,55 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const fetch = require('node-fetch');
 
 const app = express();
-const port = 3000;
+const PORT = 3000;
 
-const users = [
-    { userid: 'user1', password: 'pass1', name: 'John Doe', email: 'john@example.com', phone: '123-456-7890', address: '123 Main St' },
-    { userid: 'user2', password: 'pass2', name: 'Jane Smith', email: 'jane@example.com', phone: '987-654-3210', address: '456 Elm St' },
-    { userid: 'user3', password: 'pass3', name: 'Alice Johnson', email: 'alice@example.com', phone: '555-666-7777', address: '789 Oak St' },
-    { userid: 'user4', password: 'pass4', name: 'Bob Brown', email: 'bob@example.com', phone: '444-555-6666', address: '321 Pine St' },
-    { userid: 'user5', password: 'pass5', name: 'Charlie Davis', email: 'charlie@example.com', phone: '333-444-5555', address: '654 Maple St' }
-];
-
+// Parse JSON bodies
 app.use(bodyParser.json());
 
-// Misconfigured CORS middleware
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', req.headers.origin);  // Allow any origin
-    res.header('Access-Control-Allow-Credentials', 'true');  // Allow credentials
-    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-});
+// Mock database of users (for demonstration)
+const users = [
+    { username: 'user1', password: 'password1', usermailid: 'user1@example.com', mobile: '1234567890', apiKey: 'user1-api-key' },
+    { username: 'user2', password: 'password2', usermailid: 'user2@example.com', mobile: '9876543210', apiKey: 'user2-api-key' }
+];
 
-app.post('/login', (req, res) => {
-    const { userid, password } = req.body;
+// Login route
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
 
-    const user = users.find(u => u.userid === userid && u.password === password);
+    // Simulate authentication
+    const user = users.find(u => u.username === username && u.password === password);
+    
+    if (!user) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+    }
 
-    if (user) {
-        res.status(200).json({ 
-            message: 'Login successful',
-            userDetails: {
-                name: user.name,
-                email: user.email,
-                phone: user.phone,
-                address: user.address
+    try {
+        // Fetch user details from the evil server (which has misconfigured CORS)
+        let response = await fetch('http://localhost:4000/userdetails', {
+            headers: {
+                'Authorization': 'Bearer userToken' // Example token
             }
         });
-    } else {
-        res.status(401).json({ message: 'Invalid user ID or password' });
+
+        let userData = await response.json();
+
+        // Return user details to the client
+        res.json({
+            usermailid: user.usermailid,
+            mobile: user.mobile,
+            apiKey: userData.apiKey // Assume the misconfigured server sends the admin API key
+        });
+
+    } catch (error) {
+        console.error('Error fetching user details:', error);
+        res.status(500).json({ message: 'Error fetching user details' });
     }
 });
 
-// Endpoint to get all users
-app.get('/all-users', (req, res) => {
-    res.status(200).json(users);
-});
-
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}/`);
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Backend server is running on http://localhost:${PORT}`);
 });
 
