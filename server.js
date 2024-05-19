@@ -1,33 +1,4 @@
-/*
-const express = require('express');
-const cors = require('cors');
 
-const app = express();
-const port = 3000;
-
-// Enable CORS with custom options
-app.use(cors());
-
-// Example data endpoint
-app.get('/data', (req, res) => {
-    // Set Access-Control-Allow-Origin header to reflect request origin
-    res.setHeader('Access-Control-Allow-Origin',req.headers.origin);
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.header('Access-Control-Allow-Credentials', 'true');
-   
-    const data = {
-        message: 'Hello CYBERNERDS!!!!!!!!!!!!!!!!!!!!!!!from the server..........Hope all you ate',
-        origin: req.headers.origin // Reflect request origin in response body
-    };
-    res.json(data);
-});
-
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-});
-
-*/
 
 const express = require('express');
 const cors = require('cors');
