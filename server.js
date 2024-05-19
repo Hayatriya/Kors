@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 const users = {
     'admin': {
         password: 'admin1',
-        email: 'admin@example.com',
+        email: 'testuser1@example.com',
         phone: '123-456-7891',
         address: '123 Test St, Test City, Test Country',
         apiKey: 'abc123xyz1'
