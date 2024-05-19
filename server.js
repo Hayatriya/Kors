@@ -1,5 +1,3 @@
-
-
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -7,10 +5,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const PORT = 3000;
 
-// Middleware
-app.use(cors({
-    origin: 'https://hayatriya.github.io' // Allow this origin
-}));
+// Middleware to parse JSON bodies
 app.use(bodyParser.json());
 
 // Dummy user data for demonstration
@@ -51,6 +46,15 @@ const users = {
         apiKey: 'abc123xyz5'
     }
 };
+
+// CORS middleware with misconfiguration
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', req.headers.origin); // Reflects the request origin
+    res.header('Access-Control-Allow-Credentials', 'true'); // Allows credentials
+    res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    next();
+});
 
 // Route to handle POST requests for user data
 app.post('/data', (req, res) => {
