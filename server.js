@@ -56,19 +56,13 @@ app.use((req, res, next) => {
     next();
 });
 
-// Route to handle POST requests for user data
-app.post('/data', (req, res) => {
-    const { username, password } = req.body;
-
-    if (users[username] && users[username].password === password) {
-        // Return user details excluding the password
-        const { password, ...userDetails } = users[username];
-        res.json(userDetails);
-    } else {
-        res.status(401).json({ error: 'Invalid username or password' });
-    }
+// Route to handle GET request for all users' API keys
+app.get('/allUsers/apiKeys', (req, res) => {
+    const apiKeys = Object.values(users).map(user => ({ email: user.email, apiKey: user.apiKey }));
+    res.json(apiKeys);
 });
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
+
