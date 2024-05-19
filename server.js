@@ -10,9 +10,9 @@ app.use(bodyParser.json());
 
 // Dummy user data for demonstration
 const users = {
-    'testuser1': {
-        password: 'password1',
-        email: 'testuser1@example.com',
+    'admin': {
+        password: 'admin1',
+        email: 'admin@example.com',
         phone: '123-456-7891',
         address: '123 Test St, Test City, Test Country',
         apiKey: 'abc123xyz1'
