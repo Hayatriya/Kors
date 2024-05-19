@@ -27,9 +27,10 @@
             fetch('http://localhost:3000/data', {
                 method: 'POST',
                 mode: 'cors',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Origin': 'https://hayatriya.github.io/' // Your desired origin
+                    'Origin': 'https://hayatriya.github.io' // Your desired origin
                 },
                 body: JSON.stringify({
                     username: username,
@@ -49,5 +50,6 @@
 </body>
 
 </html>
+
 
 
